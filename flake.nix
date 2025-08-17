@@ -6,7 +6,7 @@
   };
 
   nixConfig = {
-    bash-prompt-suffix = "\${name}$ ";
+    bash-prompt-suffix = "\\[\\033[0;36m\\]\${name}$ \\[\\033[0m\\]";
   };
 
   outputs = { self, nixpkgs }: {
