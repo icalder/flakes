@@ -1,12 +1,19 @@
 {
-  description = "NATS Server with Jetstream support";
+  description = "Various Nix flakes for development environments";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
   };
 
+  nixConfig = {
+    bash-prompt-suffix = "\${name}$ ";
+  };
+
   outputs = { self, nixpkgs }: {
-    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShellNoCC {
+    # NATS Server
+    devShells.x86_64-linux.nats-server = nixpkgs.legacyPackages.x86_64-linux.mkShellNoCC {
+    name = "nats-server";
+
       packages = with nixpkgs.legacyPackages.x86_64-linux; [
         nats-server
       ];
