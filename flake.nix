@@ -9,10 +9,26 @@
     bash-prompt-suffix = "\\[\\033[0;36m\\]\${name}$ \\[\\033[0m\\]";
   };
 
-  outputs = { self, nixpkgs }: {
-    # NATS Server
-    devShells.x86_64-linux.nats-server = import ./nats-server.nix {
-      inherit nixpkgs;
+  outputs =
+    {
+      self,
+      nixpkgs,
+    }:
+    {
+      devShells = {
+        x86_64-linux = {
+          nats-server = import ./nats-server.nix {
+            inherit nixpkgs;
+          };
+
+          protobuf = import ./protobuf.nix {
+            inherit nixpkgs;
+          };
+
+          rust = import ./rust.nix {
+            inherit nixpkgs;
+          };
+        };
+      };
     };
-  };
 }
