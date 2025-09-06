@@ -28,6 +28,10 @@
           rust = import ./rust.nix {
             inherit nixpkgs;
           };
+
+          nodejs = import ./nodejs.nix {
+            inherit nixpkgs;
+          };
         };
       };
     };
