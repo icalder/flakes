@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
 
   nixConfig = {
@@ -13,6 +14,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
     }:
     {
       devShells = {
@@ -31,6 +33,11 @@
 
           nodejs = import ./nodejs.nix {
             inherit nixpkgs;
+          };
+
+          go = import ./go.nix {
+            inherit nixpkgs;
+            inherit nixpkgs-unstable;
           };
         };
       };
