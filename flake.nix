@@ -11,35 +11,41 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-    }:
-    {
-      devShells = {
-        x86_64-linux = {
-          nats-server = import ./nats-server.nix {
-            inherit nixpkgs;
-          };
-
-          protobuf = import ./protobuf.nix {
-            inherit nixpkgs;
-          };
-
-          rust = import ./rust.nix {
-            inherit nixpkgs;
-          };
-
-          nodejs = import ./nodejs.nix {
-            inherit nixpkgs;
-          };
-
-          go = import ./go.nix {
-            inherit nixpkgs;
-            inherit nixpkgs-unstable;
-          };
-        };
+    inputs:
+    let
+      inherit (inputs) nixpkgs nixpkgs-unstable;
+      system = "x86_64-linux";
+      specialArgs = {
+        inherit nixpkgs nixpkgs-unstable;
       };
+    in
+    {
+      devShells.${system} =
+        let
+          imports =
+            builtins.map (
+              f:
+              let
+                s = builtins.split ".nix" f;
+              in
+              {
+                name = builtins.elemAt s 0;
+                value = import ./shells/${f};
+              }
+            ) (
+              builtins.attrNames (
+                builtins.readDir ./shells
+              )
+            );
+        in
+        builtins.listToAttrs (
+          builtins.map (
+            s:
+            {
+              name = s.name;
+              value = s.value specialArgs;
+            }
+          ) imports
+        );
     };
 }
