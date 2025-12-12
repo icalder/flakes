@@ -1,5 +1,5 @@
-{ nixpkgs, ... }:
-  nixpkgs.legacyPackages.x86_64-linux.mkShellNoCC {
+{ nixpkgs, system, ... }:
+  nixpkgs.legacyPackages.${system}.mkShellNoCC {
     # See example jere for a Nix shell with a PostgreSQL server.
     # It demonstrates a way to create a config file for the server and use a data dir:
     # https://github.com/RKlompUU/nix-recipes/blob/main/pg-server/shell.nix
@@ -8,7 +8,7 @@
 
     name = "nats-server";
 
-    packages = with nixpkgs.legacyPackages.x86_64-linux; [
+    packages = with nixpkgs.legacyPackages.${system}; [
       nats-server
     ];
 

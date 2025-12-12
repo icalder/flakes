@@ -1,6 +1,6 @@
-{ nixpkgs, ... }:
+{ nixpkgs, system, ... }:
 let
-  pkgs = nixpkgs.legacyPackages.x86_64-linux;
+  pkgs = nixpkgs.legacyPackages.${system};
   bc125csv = pkgs.python3Packages.buildPythonPackage {
     pname = "bc125csv";
     version = "unstable";

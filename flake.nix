@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   nixConfig = {
@@ -11,33 +12,34 @@
   };
 
   outputs =
-    inputs:
-    let
-      inherit (inputs) nixpkgs nixpkgs-unstable;
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit nixpkgs nixpkgs-unstable;
-      };
-    in
-    {
-      devShells.${system} =
-        let
-          imports = builtins.map (
-            f:
-            let
-              s = builtins.split ".nix" f;
-            in
+    { self, nixpkgs, nixpkgs-unstable, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        specialArgs = {
+          inherit nixpkgs nixpkgs-unstable system;
+        };
+        imports = builtins.map (
+          f:
+          let
+            s = builtins.split ".nix" f;
+          in
+          {
+            name = builtins.elemAt s 0;
+            value = import ./shells/${f};
+          }
+        ) (builtins.attrNames (builtins.readDir ./shells));
+      in
+      {
+        devShells = builtins.listToAttrs (
+          builtins.map (
+            s:
             {
-              name = builtins.elemAt s 0;
-              value = import ./shells/${f};
+              name = s.name;
+              value = s.value specialArgs;
             }
-          ) (builtins.attrNames (builtins.readDir ./shells));
-        in
-        builtins.listToAttrs (
-          builtins.map (s: {
-            name = s.name;
-            value = s.value specialArgs;
-          }) imports
+          ) imports
         );
-    };
+      }
+    );
 }
