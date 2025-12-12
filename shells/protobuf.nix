@@ -1,4 +1,4 @@
-{ nixpkgs }:
+{ nixpkgs, ... }:
 nixpkgs.legacyPackages.x86_64-linux.mkShellNoCC rec {
   name = "buf";
 

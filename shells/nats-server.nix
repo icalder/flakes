@@ -1,4 +1,4 @@
-{ nixpkgs }:
+{ nixpkgs, ... }:
   nixpkgs.legacyPackages.x86_64-linux.mkShellNoCC {
     # See example jere for a Nix shell with a PostgreSQL server.
     # It demonstrates a way to create a config file for the server and use a data dir:
