@@ -1,10 +1,11 @@
 { nixpkgs, system, ... }:
 nixpkgs.legacyPackages.${system}.mkShellNoCC rec {
-  name = "buf";
+  name = "proto";
 
   packages = with nixpkgs.legacyPackages.${system}; [
     protobuf # protoc required for Rust builds
     buf
+    grpcurl
   ];
 
   # shellHook = ''
