@@ -1,8 +1,8 @@
-{ nixpkgs, system, ... }:
-nixpkgs.legacyPackages.${system}.mkShellNoCC rec {
+{ pkgs, ... }:
+pkgs.mkShellNoCC rec {
   name = "proto";
 
-  packages = with nixpkgs.legacyPackages.${system}; [
+  packages = with pkgs; [
     protobuf # protoc required for Rust builds
     buf
     grpcurl

@@ -16,8 +16,10 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
+        pkgs = import nixpkgs { inherit system; };
+        pkgs-unstable = import nixpkgs-unstable { inherit system; };
         specialArgs = {
-          inherit nixpkgs nixpkgs-unstable system;
+          inherit pkgs pkgs-unstable system;
         };
         imports = builtins.map (
           f:

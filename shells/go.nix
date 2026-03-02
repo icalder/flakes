@@ -1,8 +1,8 @@
-{ nixpkgs, nixpkgs-unstable, system, ... }:
-nixpkgs.legacyPackages.${system}.mkShell {
+{ pkgs, pkgs-unstable, ... }:
+pkgs.mkShell {
   name = "go";
 
-  packages = with nixpkgs-unstable.legacyPackages.${system}; [
+  packages = with pkgs-unstable; [
     go
   ];
 }

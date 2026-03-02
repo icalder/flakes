@@ -1,8 +1,8 @@
-{ nixpkgs, system, ... }:
-nixpkgs.legacyPackages.${system}.mkShell {
+{ pkgs, ... }:
+pkgs.mkShell {
   name = "nodejs";
 
-  packages = with nixpkgs.legacyPackages.${system}; [
+  packages = with pkgs; [
     nodejs
   ];
 }

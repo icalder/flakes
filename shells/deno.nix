@@ -1,8 +1,8 @@
-{ nixpkgs-unstable, system, ... }:
-nixpkgs-unstable.legacyPackages.${system}.mkShell {
+{ pkgs-unstable, ... }:
+pkgs-unstable.mkShell {
   name = "deno";
 
-  packages = with nixpkgs-unstable.legacyPackages.${system}; [
+  packages = with pkgs-unstable; [
     deno
   ];
 }
